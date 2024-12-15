@@ -5,5 +5,5 @@ function love.conf(t)
 	t.window.minheight = 240
 	t.window.title = "Undertale Ceiling Fan"
 	t.window.icon = "icon.png"
-	t.identity = "bravelycowering/undertale-ceiling-fan"
+	t.identity = "undertale-ceiling-fan"
 end
