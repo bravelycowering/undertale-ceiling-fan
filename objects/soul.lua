@@ -22,6 +22,42 @@ return function(x, y, maxhp, iframes) local self = {}
 	self.df = 10
 	self.fleetimer = 0
 	local shards = {}
+	self.inv = {
+		{
+			text = "* Frehel",
+			onclick = function()
+				self.hp = math.min(self.hp + self.maxhp, self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self.bt:endturn({"* You ate the frehel.","* You were heled for fre"})
+
+
+			end
+		},
+		{
+			text = "* aICeFghjm",
+			onclick = function()
+				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self.bt:endturn({"Placeholder food."})
+			end
+		},
+		{
+			text = "* aICeFghjm",
+			onclick = function()
+				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self.bt:endturn({"Placeholder food."})
+			end
+		},
+		{
+			text = "* aICeFghjm",
+			onclick = function()
+				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self.bt:endturn({"Placeholder food."})
+			end
+		}
+	}
 	function self:setlove(val)
 		self.love = val
 		self:calcstats()
@@ -66,6 +102,9 @@ return function(x, y, maxhp, iframes) local self = {}
 		end
 		if ISDOWN "DOWN" then
 			self.y = self.y + speed
+		end
+		if ISDOWN "HEAL" then
+			self.hp = self.maxhp
 		end
 		if self.iframes > 0 then
 			self.iframes = self.iframes - 1

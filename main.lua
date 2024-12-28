@@ -16,7 +16,8 @@ CONTROLS = {
 	DOWN = "down",
 	SELECT = "z",
 	CANCEL = "x",
-	MENU = "c"
+	MENU = "c",
+	HEAL = "e"
 }
 
 local pressed = {
@@ -26,10 +27,11 @@ local pressed = {
 	DOWN = false,
 	SELECT = false,
 	CANCEL = false,
+	HEAL = false,
 	MENU = false
 }
 
-local titles = {"DELTARUNE", "NUT DEALER", "ULTRA NEED", "DUAL ENTER", "ELDER TUNA", "RENTAL DUE", "TUNDRA EEL", "UN-ALTERED"}
+local titles = {"DELTARUNE", "NUT DEALER", "ULTRA NEED", "DUAL ENTER", "ELDER TUNA", "RENTAL DUE", "TUNDRA EEL", "UN-ALTERED", "UNDERTALE", "NOT MYTALE"}
 love.window.setTitle(titles[math.floor(love.math.random() * #titles + 1)])
 
 love.graphics.setDefaultFilter("nearest", "nearest")
@@ -77,6 +79,7 @@ function SOUND(path)
 	if not sounds[path] then
 		sounds[path] = love.audio.newSource("assets/sounds/"..path, "static")
 	end
+	print(path)
 	return sounds[path]
 end
 
