@@ -131,15 +131,48 @@ return function() local self = {}
             end)
         end)
         self:makebutton(345, 432, "item_button", "item_button_selected", nil, nil, function ()
-            self.dialogue:makechoices({
-                {
-                    text = "* heal pls (no items yet)",
-                    onclick = function()
-                        self.soul.hp = math.min(self.soul.hp + math.floor(self.soul.maxhp / 4), self.soul.maxhp)
-                        self:endturn()
-                    end
-                }
-            }, self.soul, 2)
+            if self.soul and #self.soul.inventory > 0 then
+				local choices = {}
+				for index, value in ipairs(self.soul.inventory) do
+					local i = index
+					choices[#choices+1] = {
+						text = "* "..value.name,
+						onclick = function()
+							if value.sound then
+								PLAYSOUND(value.sound)
+							end
+							if value.type == 1 then
+								self.soul.hp = math.min(self.soul.hp + value.value, self.soul.maxhp)
+								table.remove(self.soul.inventory, i)
+							end
+							if value.type == 2 then
+								table.remove(self.soul.inventory, i)
+								if self.soul.armor then
+									self.soul.inventory[#self.soul.inventory+1] = self.soul.armor
+								end
+								self.soul.armor = value
+								self.soul:calcstats()
+							end
+							if value.type == 3 then
+								table.remove(self.soul.inventory, i)
+								if self.soul.weapon then
+									self.soul.inventory[#self.soul.inventory+1] = self.soul.weapon
+								end
+								self.soul.weapon = value
+								self.soul:calcstats()
+							end
+							if type(value.onused) == "table" then
+								self:endturn(value.onused)
+							elseif value.onused == nil then
+								self:endturn()
+							else
+								value:onused(self)
+							end
+						end
+					}
+				end
+				self.dialogue:makechoices(choices, self.soul, 2, true)
+			end
         end)
         self:makebutton(500, 432, "mercy_button", "mercy_button_selected", nil, nil, function ()
 			local canspare = false
@@ -345,6 +378,52 @@ return function() local self = {}
         love.graphics.print("Attack: "..tostring(attackmode), 0, 64)
         love.graphics.print("Box resizing: "..tostring(self.box.resizing), 0, 80)
     end
+	function self:makeitem(name, options)
+		local value = options.value or 0
+		-- 0 - do nothing
+		-- 1 - consume
+		-- 2 - equip armor
+		-- 3 - equip weapon
+		local type = options.type or 0
+		-- nil is no sound
+		local sound = options.sound
+		-- can be a function, flavor text, or nil
+		local onused = options.onused
+		return {
+			name = name,
+			value = value,
+			type = type,
+			sound = sound,
+			onused = onused,
+		}
+	end
+	function self:makefooditem(name, health, options)
+		options = options or {}
+		return self:makeitem(name, {
+			value = health,
+			type = 1,
+			sound = options.sound or "snd_heal_c.wav",
+			onused = {"* You ate the "..name..".\n* Recovered "..health.." HP!"}
+		})
+	end
+	function self:makearmoritem(name, defense, options)
+		options = options or {}
+		return self:makeitem(name, {
+			value = defense,
+			type = 2,
+			sound = options.sound or "snd_item.wav",
+			onused = {"* You equipped the "..name.."."}
+		})
+	end
+	function self:makeweaponitem(name, attack, options)
+		options = options or {}
+		return self:makeitem(name, {
+			value = attack,
+			type = 3,
+			sound = options.sound or "snd_item.wav",
+			onused = {"* You equipped the "..name.."."}
+		})
+	end
     local Attack = require "objects.attack"
     function self:makebullet(options)
         local image = IMAGE(options.image or "attack_default")

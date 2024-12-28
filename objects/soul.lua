@@ -21,6 +21,9 @@ return function(x, y, maxhp, iframes) local self = {}
 	self.at = 10
 	self.df = 10
 	self.fleetimer = 0
+	self.inventory = {}
+	self.armor = nil
+	self.weapon = nil
 	local shards = {}
 	function self:setlove(val)
 		self.love = val
@@ -37,7 +40,13 @@ return function(x, y, maxhp, iframes) local self = {}
 			self.maxhp = 99
 		end
 		self.at = 8 + 2 * self.love
+		if self.weapon then
+			self.at = self.at + self.weapon.value
+		end
 		self.df = 10 + math.floor((self.love - 1) / 4)
+		if self.armor then
+			self.df = self.df + self.armor.value
+		end
 	end
 	function self:update()
 		local speed = 2
@@ -153,7 +162,7 @@ return function(x, y, maxhp, iframes) local self = {}
 			or
 			self.y + self.height / 2 < bullet.y - bullet.height / 2
 		) and self.iframes == 0 then
-			self.hp = self.hp - (bullet.damage or 4)
+			self.hp = self.hp - math.max(1, (bullet.damage or 4) - math.floor((self.df - 10) / 5 + 0.5))
 			self.iframes = bullet.iframes or self.maxiframes
 			PLAYSOUND "snd_hurt1.wav"
 			return true

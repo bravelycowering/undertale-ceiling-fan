@@ -27,13 +27,14 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 		[";"] = 4,
 		[","] = 4,
 	}
-	function self:makechoices(menu, soul, cols)
+	function self:makechoices(menu, soul, cols, usepages)
 		if #menu == 0 then return end
 		self.menus[#self.menus+1] = menu
 		self.columns = cols or 1
 		menu.options = #menu
 		menu.option = 1
 		menu.soul = soul
+		menu.usepages = usepages or false
 		self.text = ""
 		self.justswitched = true
 		return true
