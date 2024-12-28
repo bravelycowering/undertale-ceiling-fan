@@ -16,8 +16,9 @@ CONTROLS = {
 	DOWN = "down",
 	SELECT = "z",
 	CANCEL = "x",
-	MENU = "c",
-	HEAL = "e"
+--	HEAL = "e",
+	MENU = "c"
+
 }
 
 local pressed = {
@@ -27,7 +28,7 @@ local pressed = {
 	DOWN = false,
 	SELECT = false,
 	CANCEL = false,
-	HEAL = false,
+--	HEAL = false,
 	MENU = false
 }
 

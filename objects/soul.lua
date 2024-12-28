@@ -103,9 +103,9 @@ return function(x, y, maxhp, iframes) local self = {}
 		if ISDOWN "DOWN" then
 			self.y = self.y + speed
 		end
-		if ISDOWN "HEAL" then
-			self.hp = self.maxhp
-		end
+--		if ISDOWN "HEAL" then
+--			self.hp = self.maxhp
+--		end
 		if self.iframes > 0 then
 			self.iframes = self.iframes - 1
 		end
