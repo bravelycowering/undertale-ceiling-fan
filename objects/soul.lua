@@ -28,7 +28,8 @@ return function(x, y, maxhp, iframes) local self = {}
 			onclick = function()
 				self.hp = math.min(self.hp + self.maxhp, self.maxhp)
 				PLAYSOUND("snd_heal_c.wav")
-				self.bt:endturn({"* You ate the frehel.","* You were heled for fre"})
+				self:removeItem(1)
+				self.bt:endturn({"* You ate the frehel.","* You were heled for fre."})
 
 
 			end
@@ -38,6 +39,7 @@ return function(x, y, maxhp, iframes) local self = {}
 			onclick = function()
 				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
 				PLAYSOUND("snd_heal_c.wav")
+				self:removeItem(2)
 				self.bt:endturn({"Placeholder food."})
 			end
 		},
@@ -46,6 +48,7 @@ return function(x, y, maxhp, iframes) local self = {}
 			onclick = function()
 				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
 				PLAYSOUND("snd_heal_c.wav")
+				self:removeItem(3)
 				self.bt:endturn({"Placeholder food."})
 			end
 		},
@@ -54,10 +57,17 @@ return function(x, y, maxhp, iframes) local self = {}
 			onclick = function()
 				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
 				PLAYSOUND("snd_heal_c.wav")
+				self:removeItem(4)
 				self.bt:endturn({"Placeholder food."})
 			end
 		}
 	}
+	function self:removeItem(index)
+		self.inv[index] = {text = "N/A",onclick = function() end} -- in my defense, technical limitations.
+	end
+	function self:setItem(index, item)
+		self.inv[index] = item
+	end
 	function self:setlove(val)
 		self.love = val
 		self:calcstats()

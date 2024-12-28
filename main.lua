@@ -18,7 +18,6 @@ CONTROLS = {
 	CANCEL = "x",
 --	HEAL = "e",
 	MENU = "c"
-
 }
 
 local pressed = {
@@ -32,7 +31,7 @@ local pressed = {
 	MENU = false
 }
 
-local titles = {"DELTARUNE", "NUT DEALER", "ULTRA NEED", "DUAL ENTER", "ELDER TUNA", "RENTAL DUE", "TUNDRA EEL", "UN-ALTERED", "UNDERTALE", "NOT MYTALE"}
+local titles = {"DELTARUNE", "NUT DEALER", "ULTRA NEED", "DUAL ENTER", "ELDER TUNA", "RENTAL DUE", "TUNDRA EEL", "UN-ALTERED"}
 love.window.setTitle(titles[math.floor(love.math.random() * #titles + 1)])
 
 love.graphics.setDefaultFilter("nearest", "nearest")
