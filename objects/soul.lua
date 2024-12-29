@@ -60,6 +60,42 @@ return function(x, y, maxhp, iframes) local self = {}
 				self:removeItem(4)
 				self.bt:endturn({"Placeholder food."})
 			end
+		},
+		{
+			text = "* aICeFghjm",
+			onclick = function()
+				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self:removeItem(5)
+				self.bt:endturn({"Placeholder food."})
+			end
+		},
+		{
+			text = "* aICeFghjm",
+			onclick = function()
+				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self:removeItem(6)
+				self.bt:endturn({"Placeholder food."})
+			end
+		},
+		{
+			text = "* aICeFghjm",
+			onclick = function()
+				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self:removeItem(7)
+				self.bt:endturn({"Placeholder food."})
+			end
+		},
+		{
+			text = "* aICeFghjm",
+			onclick = function()
+				self.hp = math.min(self.hp + math.floor(self.maxhp / 4), self.maxhp)
+				PLAYSOUND("snd_heal_c.wav")
+				self:removeItem(8)
+				self.bt:endturn({"Placeholder food."})
+			end
 		}
 	}
 	function self:removeItem(index)
