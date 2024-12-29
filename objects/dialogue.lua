@@ -28,17 +28,10 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 		[","] = 4,
 	}
 	function self:makechoices(menu, soul, cols)
-		tempvar = {}
-		for index, value in ipairs(menu) do
-			if menu[index] ~= {text = "N/A",onclick = function() end} then
-				tempvar[index] = value
-			end
-		end
 		if #menu == 0 then return end
-		if #tempvar == 0 then return end
 		self.menus[#self.menus+1] = menu
 		self.columns = cols or 1
-		menu.options = #tempvar
+		menu.options = #menu
 		menu.option = 1
 		menu.soul = soul
 		self.text = ""
