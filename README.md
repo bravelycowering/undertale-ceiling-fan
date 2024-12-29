@@ -8,9 +8,12 @@ This project was written in Lua with [LOVE2D](https://love2d.org/), so make sure
 
 ## Known Issues
 
-- Missing an attack will not progress the battle
+- Missing an attack will not progress the battle and instead result in a softlock
 - Attack, spare, and death animations are not finished
 - The game over screen just says "Stay determined" with no other dialogue
 - An enemy can still prevent the player from fleeing even if they are already spared or killed
 - Items do not exist
 - It is not possible to remove the default "Check" option
+- There is no easy way to define an enemy with more than one sprite or moving parts
+- Pre-attack enemy dialogue is not possible
+- Flavor text appears before the battle box has fully expanded to fit it after a turn resulting in a minor visual glitch
