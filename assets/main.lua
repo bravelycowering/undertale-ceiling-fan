@@ -11,6 +11,7 @@ local function reloadFiles()
         "*assets.scenes.battle",
         "*assets.scenes.game_over",
         "*assets.scripts.samplebattle",
+        "*assets.scripts.sampleitembattle",
         "*assets.scripts.triobattle",
 		"*assets.scripts.menulessbattle",
         "*assets.scripts.sixbattle",
@@ -85,12 +86,15 @@ SETSCENE({
                     require "assets.scripts.samplebattle" (scene)
                 end
                 if option == 4 then
-                    require "assets.scripts.triobattle" (scene)
+                    require "assets.scripts.sampleitembattle" (scene)
                 end
                 if option == 5 then
-                    require "assets.scripts.menulessbattle" (scene)
+                    require "assets.scripts.triobattle" (scene)
                 end
                 if option == 6 then
+                    require "assets.scripts.menulessbattle" (scene)
+                end
+                if option == 7 then
                     require "assets.scripts.sixbattle" (scene)
                 end
                 SETSCENE(scene)
