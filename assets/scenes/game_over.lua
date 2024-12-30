@@ -1,12 +1,19 @@
 return function(soul) local self = {}
     self.soul = soul
+	self.name = "Chara"
+	if self.soul then
+		self.name = self.soul.name
+	end
     self.fade = 0
     self.timer = 0
     self.fadeout = false
-    self.dialogue = require "objects.dialogue" (nil, "fnt_default_big", 109, 322, true)
+    self.dialogue = require "objects.dialogue" (nil, "fnt_default_big", 160, 322, "snd_txtasg.wav")
+	self.dialogue.speed = 4
+	self.dialogue.charwidthoverride = 20
     self.music = MUSIC "determination.mp3"
     self.music:play()
     self.music:setLooping(true)
+	self.message = 1
     function self:update()
         self.timer = self.timer + 1
         if self.fadeout then
@@ -24,12 +31,18 @@ return function(soul) local self = {}
             end
         end
         if self.timer == 60 then
-            self.dialogue:settext("Stay determined!")
+            self.dialogue:settext("You cannot give\nup just yet...", true)
         end
-        if ISPRESSED "SELECT" then
-            self.dialogue:settext("")
-            self.fadeout = true
-            self.timer = 999
+        if ISPRESSED "SELECT" and self.dialogue.text == self.dialogue.targettext then
+			if self.message == 1 then
+				self.message = 2
+				self.dialogue:settext(self.name.."!\nStay determined!", true)
+			elseif self.message == 2 then
+				self.message = 0
+				self.dialogue:settext("")
+				self.fadeout = true
+            	self.timer = 999
+			end
         end
         if self.soul then
             self.soul:update()
@@ -45,4 +58,8 @@ return function(soul) local self = {}
         end
         self.dialogue:draw()
     end
+	function self:debugdraw()
+		love.graphics.setFont(FONT "fnt_default")
+		love.graphics.print("Message "..self.message.."\nTimer: "..self.timer.."\nFadeout: "..tostring(self.fadeout))
+	end
 return self end

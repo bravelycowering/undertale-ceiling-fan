@@ -18,6 +18,7 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 	self.columns = 2
 	self.columnspacing = 256
 	self.rowspacing = 32
+	self.charwidthoverride = nil
 	local timer = 0
 	local delays = {
 		["!"] = 8,
@@ -158,7 +159,7 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 				texty = texty + self.font:getHeight()
 				textx = x
 			else
-				local width = self.font:getWidth(char)
+				local width = self.charwidthoverride or self.font:getWidth(char)
 				if char == "*" then
 					width = math.ceil(width * 0.75) + 1
 				end

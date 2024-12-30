@@ -123,15 +123,19 @@ return function() local self = {}
         end)
         self:makebutton(185, 432, "act_button", "act_button_selected", nil, nil, function ()
             self:makeopponentselectors(function(opponent)
-                self.dialogue:makechoices({
-                    {
-                        text = "* Check",
-                        onclick = function()
-                            self:endturn(opponent.checktext)
-                        end
-                    },
-                    unpack(opponent.acts)
-                }, self.soul, 2)
+				if opponent.checktext then
+					self.dialogue:makechoices({
+						{
+							text = "* Check",
+							onclick = function()
+								self:endturn(opponent.checktext)
+							end
+						},
+						unpack(opponent.acts)
+					}, self.soul, 2)
+				else
+					self.dialogue:makechoices(opponent.acts, self.soul, 2)
+				end
             end)
         end)
         self:makebutton(345, 432, "item_button", "item_button_selected", nil, nil, function ()
