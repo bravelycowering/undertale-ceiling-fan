@@ -11,7 +11,8 @@ local function reloadFiles()
         "*assets.scenes.battle",
         "*assets.scripts.samplebattle",
         "*assets.scripts.triobattle",
-		"*assets.scripts.menulessbattle"
+		"*assets.scripts.menulessbattle",
+        "*assets.scripts.sixbattle",
     }
     debugoptions = #scripts
     files = love.filesystem.getDirectoryItems("mods")
@@ -82,6 +83,9 @@ SETSCENE({
                 end
                 if option == 4 then
                     require "assets.scripts.menulessbattle" (battle)
+                end
+                if option == 5 then
+                    require "assets.scripts.sixbattle" (battle)
                 end
                 SETSCENE(battle)
             else

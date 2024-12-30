@@ -102,7 +102,11 @@ return function() local self = {}
                 }
             end
         end
-        self.dialogue:makechoices(options, self.soul)
+		local rows
+		if #self.opponents > 3 then
+			rows = 3
+		end
+        self.dialogue:makechoices(options, self.soul, 1, rows)
     end
     function self:makedefaultbuttons()
         self:makebutton(32, 432, "fight_button", "fight_button_selected", nil, {1, 1, 0.294117647}, function ()
