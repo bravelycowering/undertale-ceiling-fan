@@ -90,16 +90,6 @@ return function(name, x, y, img, hp, options) local self = {}
 			self.attacked = attacked
 		end
 	end
-    function self:heal(num, attacked)
-        PLAYSOUND "snd_heal_c.wav"
-		self.hpbar = Hpbar(num, self.x, self.y - self.image:getHeight() * 2 - 20, self.image:getWidth() * 2, self.hp / self.maxhp, (self.hp - num) / self.maxhp)
-		self.hp = self.hp + num
-		if attacked == nil then
-			self.attacked = true
-		else
-			self.attacked = attacked
-		end
-	end
 	function self:miss()
 		self.hpbar = Hpbar("MISS", self.x, self.y - self.image:getHeight() * 2 - 20, 0, 0, 0)
 	end

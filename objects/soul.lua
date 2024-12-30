@@ -22,56 +22,6 @@ return function(x, y, maxhp, iframes) local self = {}
 	self.df = 10
 	self.fleetimer = 0
 	local shards = {}
-	local itemIdCounter = 0
-	self.inv = {}
-    function self:removeItem(id)
-        for i, item in ipairs(self.inv) do
-            if item.id == id then
-                table.remove(self.inv, i)
-                break
-            end
-		end
-    end
-
-    function self:setItem(index, item)
-        self.inv[index] = item
-    end
-
-    function self:makeHealingItem(name, hphealed, usedialogue)
-        itemIdCounter = itemIdCounter + 1
-        local id = itemIdCounter
-        return {
-            id = id,
-            text = "* " .. name,
-            onclick = function()
-                self.hp = math.min(self.hp + hphealed, self.maxhp)
-                PLAYSOUND("snd_heal_c.wav")
-                self:removeItem(id)
-                self.bt:endturn(usedialogue)
-            end
-        }
-    end
-	self.inv = {
-		{
-			text = "* Frehel",
-			id = 0,
-			onclick = function()
-				self.hp = math.min(self.hp + self.maxhp, self.maxhp)
-				PLAYSOUND("snd_heal_c.wav")
-				self:removeItem(1)
-				self.bt:endturn({"* You ate the frehel.","* You were heled for fre."})
-
-
-			end
-		},
-        self:makeHealingItem("Trehel", self.maxhp, {"* You ate the trehel.","* You were teled for fre."}),
-        self:makeHealingItem("Test", 5, {}),
-        self:makeHealingItem("Test", 5, {}),
-        self:makeHealingItem("Test", 5, {}),
-        self:makeHealingItem("Test", 5, {}),
-        self:makeHealingItem("Test", 5, {}),
-        self:makeHealingItem("Test", 5, {})
-	}
 	function self:setlove(val)
 		self.love = val
 		self:calcstats()
@@ -117,9 +67,6 @@ return function(x, y, maxhp, iframes) local self = {}
 		if ISDOWN "DOWN" then
 			self.y = self.y + speed
 		end
---		if ISDOWN "HEAL" then
---			self.hp = self.maxhp
---		end
 		if self.iframes > 0 then
 			self.iframes = self.iframes - 1
 		end

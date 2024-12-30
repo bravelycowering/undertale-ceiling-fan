@@ -15,7 +15,7 @@ return function(x, y, w, h, tw, th) local self = {}
 	self.enabled = true
 	function self:makesoul(soul)
 		local xpos, ypos = self.x + self.width / 2, self.y + self.height / 2
-		self.soul = soul or Soul(xpos, ypos,20,60)
+		self.soul = soul or Soul(xpos, ypos)
 		self.soul.x = xpos
 		self.soul.y = ypos
 		return self.soul

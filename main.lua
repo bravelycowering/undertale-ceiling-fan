@@ -16,7 +16,6 @@ CONTROLS = {
 	DOWN = "down",
 	SELECT = "z",
 	CANCEL = "x",
---	HEAL = "e",
 	MENU = "c"
 }
 
@@ -27,7 +26,6 @@ local pressed = {
 	DOWN = false,
 	SELECT = false,
 	CANCEL = false,
---	HEAL = false,
 	MENU = false
 }
 
@@ -79,7 +77,6 @@ function SOUND(path)
 	if not sounds[path] then
 		sounds[path] = love.audio.newSource("assets/sounds/"..path, "static")
 	end
-	print(path)
 	return sounds[path]
 end
 

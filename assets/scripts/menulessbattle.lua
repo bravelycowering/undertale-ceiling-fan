@@ -3,7 +3,7 @@ return function(self)
 	local battle = self
 
     local testbullet = self:makebullet {
-        spawned = function(self)	
+        spawned = function(self)
             self.damage = math.ceil(battle.soul.hp / 3)
 			self.xv = 0
 			self.yv = 4
@@ -52,9 +52,7 @@ return function(self)
 		self:queue(function()
 			if #self.buttons == 0 then
 				self:makebutton(love.math.random(0, 530), 380, "fight_button", "fight_button_selected", nil, {1, 1, 0.294117647}, function ()
-					local a = math.floor(love.math.random(15, 25))
-					opponent:damage(a, false)
-					self.soul.hp  = math.max(self.soul.hp+a, self.soul.maxhp)
+					opponent:damage(math.floor(love.math.random(15, 25)), false)
 					self.buttons = {}
 					if opponent.hp <= 0 then
 						opponent:kill()
