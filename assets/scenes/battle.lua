@@ -139,15 +139,8 @@ return function() local self = {}
             end)
         end)
         self:makebutton(345, 432, "item_button", "item_button_selected", nil, nil, function ()
-            self.dialogue:makechoices({
-                {
-                    text = "* heal pls (no items yet)",
-                    onclick = function()
-                        self.soul.hp = math.min(self.soul.hp + math.floor(self.soul.maxhp / 4), self.soul.maxhp)
-                        self:endturn()
-                    end
-                }
-            }, self.soul, 2)
+            self.soul.bt = self
+            self.dialogue:makechoices(self.soul.inv, self.soul, 2, 2)
         end)
         self:makebutton(500, 432, "mercy_button", "mercy_button_selected", nil, nil, function ()
 			local canspare = false
