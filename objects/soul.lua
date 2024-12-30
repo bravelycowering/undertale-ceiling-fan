@@ -22,27 +22,39 @@ return function(x, y, maxhp, iframes) local self = {}
 	self.df = 10
 	self.fleetimer = 0
 	local shards = {}
+	local itemIdCounter = 0
 	self.inv = {}
-	function self:removeItem(index)
-		self.inv[index] = {text = "N/A",onclick = function() end} -- in my defense, technical limitations.
-	end
-	function self:setItem(index, item)
-		self.inv[index] = item
-	end
-	function self:makeHealingItem(name,index,hphealed, usedialogue)
-		return {
-			text = "* "..name,
-			onclick = function()
-				self.hp = math.min(self.hp + hphealed, self.maxhp)
-				PLAYSOUND("snd_heal_c.wav")
-				self:removeItem(index)
-				self.bt:endturn(usedialogue)
-			end
-		}
-	end
+    function self:removeItem(id)
+        for i, item in ipairs(self.inv) do
+            if item.id == id then
+                table.remove(self.inv, i)
+                break
+            end
+		end
+    end
+
+    function self:setItem(index, item)
+        self.inv[index] = item
+    end
+
+    function self:makeHealingItem(name, hphealed, usedialogue)
+        itemIdCounter = itemIdCounter + 1
+        local id = itemIdCounter
+        return {
+            id = id,
+            text = "* " .. name,
+            onclick = function()
+                self.hp = math.min(self.hp + hphealed, self.maxhp)
+                PLAYSOUND("snd_heal_c.wav")
+                self:removeItem(id)
+                self.bt:endturn(usedialogue)
+            end
+        }
+    end
 	self.inv = {
 		{
 			text = "* Frehel",
+			id = 0,
 			onclick = function()
 				self.hp = math.min(self.hp + self.maxhp, self.maxhp)
 				PLAYSOUND("snd_heal_c.wav")
@@ -52,13 +64,13 @@ return function(x, y, maxhp, iframes) local self = {}
 
 			end
 		},
-		self:makeHealingItem("Trehel",2,self.maxhp, {"* You ate the trehel.","* You were teled for fre."}), -- the Frehel and the Trehel are the exact same except for the second item being erased instead of the first.
-		self:makeHealingItem("Test",3,5, {}),
-		self:makeHealingItem("Test",4,5, {}),
-		self:makeHealingItem("Test",5,5, {}),
-		self:makeHealingItem("Test",6,5, {}),
-		self:makeHealingItem("Test",7,5, {}),
-		self:makeHealingItem("Test",8,5, {})
+        self:makeHealingItem("Trehel", self.maxhp, {"* You ate the trehel.","* You were teled for fre."}),
+        self:makeHealingItem("Test", 5, {}),
+        self:makeHealingItem("Test", 5, {}),
+        self:makeHealingItem("Test", 5, {}),
+        self:makeHealingItem("Test", 5, {}),
+        self:makeHealingItem("Test", 5, {}),
+        self:makeHealingItem("Test", 5, {})
 	}
 	function self:setlove(val)
 		self.love = val
