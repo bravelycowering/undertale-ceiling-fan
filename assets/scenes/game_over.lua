@@ -13,7 +13,7 @@ return function(soul) local self = {}
     self.music = MUSIC "determination.mp3"
     self.music:play()
     self.music:setLooping(true)
-	self.message = 1
+	self.message = 0
     function self:update()
         self.timer = self.timer + 1
         if self.fadeout then
@@ -31,6 +31,7 @@ return function(soul) local self = {}
             end
         end
         if self.timer == 60 then
+			self.message = 1
             self.dialogue:settext("You cannot give\nup just yet...", true)
         end
         if ISPRESSED "SELECT" and self.dialogue.text == self.dialogue.targettext then
