@@ -18,6 +18,7 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 	self.columns = 2
 	self.columnspacing = 256
 	self.rowspacing = 32
+	self.charwidthoverride = nil
 	local timer = 0
 	local delays = {
 		["!"] = 8,
@@ -27,13 +28,15 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 		[";"] = 4,
 		[","] = 4,
 	}
-	function self:makechoices(menu, soul, cols)
+	function self:makechoices(menu, soul, cols, rows)
 		if #menu == 0 then return end
 		self.menus[#self.menus+1] = menu
-		self.columns = cols or 1
+		menu.columns = cols or 1
 		menu.options = #menu
 		menu.option = 1
 		menu.soul = soul
+		menu.rows = rows
+		menu.page = 1
 		self.text = ""
 		self.justswitched = true
 		return true
@@ -59,16 +62,33 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 		else
 			self.text = ""
 			local menu = self.menus[#self.menus]
-			local i = menu.option
-			local option = menu[i]
-			local row = math.ceil(i/self.columns)-1
-			local column = (i-1)%self.columns
+			local maxperpage = menu.options
+			if menu.rows then
+				maxperpage = menu.columns * menu.rows
+			end
+			local pageoptions = math.min(maxperpage, menu.options - maxperpage * (menu.page - 1))
+			local maxpages = math.ceil(menu.options / maxperpage)
+			local optionindex = menu.option + (menu.page - 1) * maxperpage
+			local option = menu[optionindex]
+			local row = math.ceil(menu.option/menu.columns)-1
+			local column = (menu.option-1)%menu.columns
 			if ISPRESSED "RIGHT" then
 				menu.option = menu.option + 1
-				local newrow = math.ceil(menu.option/self.columns)-1
-				menu.option = menu.option + (row - newrow) * self.columns
-				if menu.option > menu.options then
-					menu.option = menu.option - self.columns
+				local newrow = math.ceil(menu.option/menu.columns)-1
+				menu.page = menu.page + newrow - row
+				if menu.page > maxpages then
+					menu.page = 1
+				end
+				pageoptions = math.min(maxperpage, menu.options - maxperpage * (menu.page - 1))
+				menu.option = menu.option + (row - newrow) * menu.columns
+				if menu.option > pageoptions then
+					menu.option = menu.option - menu.columns
+					if row == 0 then
+						menu.page = menu.page + 1
+						if menu.page > maxpages then
+							menu.page = 1
+						end
+					end
 				end
 				if menu.option < 1 then
 					menu.option = 1
@@ -77,10 +97,18 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 			end
 			if ISPRESSED "LEFT" then
 				menu.option = menu.option - 1
-				local newrow = math.ceil(menu.option/self.columns)-1
-				menu.option = menu.option + (row - newrow) * self.columns
-				if menu.option > menu.options then
-					menu.option = menu.option - self.columns
+				local newrow = math.ceil(menu.option/menu.columns)-1
+				menu.page = menu.page + newrow - row
+				if menu.page < 1 then
+					menu.page = maxpages
+				end
+				pageoptions = math.min(maxperpage, menu.options - maxperpage * (menu.page - 1))
+				menu.option = menu.option + (row - newrow) * menu.columns
+				if menu.option > pageoptions then
+					menu.option = menu.option - menu.columns
+				end
+				if menu.option > pageoptions then
+					menu.option = pageoptions
 				end
 				if menu.option < 1 then
 					menu.option = 1
@@ -88,18 +116,18 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 				PLAYSOUND "snd_squeak.wav"
 			end
 			if ISPRESSED "DOWN" then
-				menu.option = menu.option + self.columns
-				if menu.option > menu.options then
-					menu.option = menu.option - (row + 1) * self.columns
+				menu.option = menu.option + menu.columns
+				if menu.option > pageoptions then
+					menu.option = menu.option - (row + 1) * menu.columns
 				end
 				PLAYSOUND "snd_squeak.wav"
 			end
 			if ISPRESSED "UP" then
-				menu.option = menu.option - self.columns
+				menu.option = menu.option - menu.columns
 				if menu.option < 1 then
-					menu.option = menu.option + math.ceil(menu.options / self.columns) * self.columns
-					if menu.option > menu.options then
-						menu.option = menu.option - self.columns
+					menu.option = menu.option + math.ceil(pageoptions / menu.columns) * menu.columns
+					if menu.option > pageoptions then
+						menu.option = menu.option - menu.columns
 					end
 				end
 				PLAYSOUND "snd_squeak.wav"
@@ -107,7 +135,7 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 			if ISPRESSED "SELECT" and not self.justswitched then
 				PLAYSOUND "snd_select.wav"
 				if option.onclick then
-					option.onclick(i)
+					option.onclick(optionindex)
 				end
 			end
 			if menu.soul then
@@ -131,7 +159,7 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 				texty = texty + self.font:getHeight()
 				textx = x
 			else
-				local width = self.font:getWidth(char)
+				local width = self.charwidthoverride or self.font:getWidth(char)
 				if char == "*" then
 					width = math.ceil(width * 0.75) + 1
 				end
@@ -144,14 +172,22 @@ return function(text, font, x, y, sound, texteffect) local self = {}
 		self:print(self.text, self.x, self.y)
 		if #self.menus > 0 then
 			local menu = self.menus[#self.menus]
-			for i = 1, menu.options do
-				local row = math.ceil(i/self.columns)-1
-				local column = (i-1)%self.columns
-				local option = menu[i]
+			local maxperpage = menu.options
+			if menu.rows then
+				maxperpage = menu.columns * menu.rows
+			end
+			local pageoptions = math.min(maxperpage, menu.options - maxperpage * (menu.page - 1))
+			for i = 1, pageoptions do
+				local row = math.ceil(i/menu.columns)-1
+				local column = (i-1)%menu.columns
+				local option = menu[i + (menu.page - 1) * maxperpage]
 				love.graphics.setColor(option.color or {1, 1, 1})
 				self:print(option.text, self.x + 48 + column * self.columnspacing, self.y + row * self.rowspacing)
 			end
 			love.graphics.setColor(1, 1, 1)
+			if menu.rows then
+				self:print("  PAGE "..menu.page, self.x + 48 + self.columnspacing, self.y + self.rowspacing * 2)
+			end
 		end
 	end
 	function self:skip()

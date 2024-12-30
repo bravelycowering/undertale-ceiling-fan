@@ -26,7 +26,9 @@ return function(name, x, y, img, hp, options) local self = {}
             newchecktext = {newchecktext}
         end
         local auto = "* "..name.." - "..tostring(self.atk).." ATK "..tostring(self.def).." DEF"
-        newchecktext[1] = newchecktext[1]:gsub("%%", auto)
+		if newchecktext then
+        	newchecktext[1] = newchecktext[1]:gsub("%%", auto)
+		end
         self.checktext = newchecktext
         self.acts = acts or {}
     end

@@ -9,10 +9,11 @@ local function reloadFiles()
     CLEARCACHE()
     scripts = {
         "*assets.scenes.battle",
+        "*assets.scenes.game_over",
         "*assets.scripts.samplebattle",
-        "*assets.scripts.sampleitembattle",
         "*assets.scripts.triobattle",
-		"*assets.scripts.menulessbattle"
+		"*assets.scripts.menulessbattle",
+        "*assets.scripts.sixbattle",
     }
     debugoptions = #scripts
     files = love.filesystem.getDirectoryItems("mods")
@@ -74,20 +75,25 @@ SETSCENE({
             love.graphics.print("Loading...", 5, 460)
             love.graphics.present()
             if option <= debugoptions then
-                local battle = require "assets.scenes.battle" ()
-                if option == 2 then
-                    require "assets.scripts.samplebattle" (battle)
-                end
+                local scene
+				if option == 2 then
+					scene = require "assets.scenes.game_over" ()
+				else
+					scene = require "assets.scenes.battle" ()
+				end
                 if option == 3 then
-                    require "assets.scripts.sampleitembattle" (battle)
+                    require "assets.scripts.samplebattle" (scene)
                 end
                 if option == 4 then
-                    require "assets.scripts.triobattle" (battle)
+                    require "assets.scripts.triobattle" (scene)
                 end
                 if option == 5 then
-                    require "assets.scripts.menulessbattle" (battle)
+                    require "assets.scripts.menulessbattle" (scene)
                 end
-                SETSCENE(battle)
+                if option == 6 then
+                    require "assets.scripts.sixbattle" (scene)
+                end
+                SETSCENE(scene)
             else
 				RELOAD("mods/"..scripts[option])
             end
