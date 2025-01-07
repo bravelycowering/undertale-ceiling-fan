@@ -28,7 +28,14 @@ local pressed = {
 	CANCEL = false,
 	MENU = false
 }
-
+backupfunction____ = love.graphics.newText
+function love.graphics.newText(font, text)
+	if love.graphics.newTextBatch then
+		return love.graphics.newTextBatch(font, text)
+	else
+		return backupfunction____(font, text)
+	end
+end
 local titles = {"DELTARUNE", "NUT DEALER", "ULTRA NEED", "DUAL ENTER", "ELDER TUNA", "RENTAL DUE", "TUNDRA EEL", "UN-ALTERED"}
 love.window.setTitle(titles[math.floor(love.math.random() * #titles + 1)])
 
