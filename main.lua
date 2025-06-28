@@ -28,6 +28,10 @@ local pressed = {
 	CANCEL = false,
 	MENU = false
 }
+framelimiter = require "framelimiter"
+function love.run() --delete default love.run
+end
+framelimiter.set(30)
 backupfunction____ = love.graphics.newText
 function love.graphics.newText(font, text)
 	if love.graphics.newTextBatch then
@@ -337,3 +341,4 @@ function love.graphics.outline(obj, color, modx, mody, shrinkbox)
 end
 
 PLAYSOUND "mus_intronoise.ogg"
+framelimiter.run()

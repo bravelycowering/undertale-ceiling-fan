@@ -15,6 +15,7 @@ return function(x, y, maxhp, iframes) local self = {}
 	self.width = 8
 	self.height = 8
 	self.color = {1, 0, 0}
+	self.speed = 4
 	self.deathtimer = 0
 	self.love = 1
 	self.name = "LOVE2D"
@@ -90,9 +91,9 @@ return function(x, y, maxhp, iframes) local self = {}
 		self.df = 10 + math.floor((self.love - 1) / 4)
 	end
 	function self:update()
-		local speed = 2
+		local speed = self.speed
 		if ISDOWN "CANCEL" then
-			speed = 1
+			speed = self.speed / 2
 		end
 		if self.hp <= 0 then
 			self:deathsequence()
