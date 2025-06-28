@@ -44,7 +44,7 @@ SETSCENE({
         if option < minopiton then
             option = minopiton
         end
-        translatey = translatey + ((option * -30 + 275 + 30) - translatey) / 10
+        translatey = translatey + ((option * -30 + 275 + 30) - translatey) / 5
         if brightnesstimer < 50 then
             brightnesstimer = brightnesstimer + 2
         end
