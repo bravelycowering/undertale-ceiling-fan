@@ -39,7 +39,7 @@ return function(self)
         end)
     end
 	-- starting dialogue
-    self.dialogue:settext("* You encountered the Dummy.\n * The Dummy stole your ITEMs.")
+    self.dialogue:settext("* You encountered the Dummy.\n* The Dummy stole your ITEMs.") -- foreshadowing for ch4 sb lolll
 	-- define the opponent
     local opponent = self:makeopponent("EvilDummy", "evildummy", 100, {
         canspare = true,
