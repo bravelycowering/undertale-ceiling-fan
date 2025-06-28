@@ -4,7 +4,7 @@ return function(opponent, at, x, y, lines, speed, sound, attackanim, cutoff) loc
     self.y = y - self.image:getHeight() / 2
     self.attackline = {IMAGE "attack_line", IMAGE "attack_line_2"}
     self.lines = lines or {0}
-    self.speed = speed or 6
+    self.speed = speed or 12
     self.sound = sound
     self.hitlines = {}
 	self.misslines = {}
