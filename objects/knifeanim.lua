@@ -6,10 +6,10 @@ return function(opponent, accuracy) local self = {}
 		if self.timer == 45 then
 			PLAYSOUND("snd_laz.wav")
 		end
-		self.timer = self.timer - 1
+		self.timer = self.timer - 2
 		return self.timer > 0
 	end
 	function self:draw()
-		love.graphics.print({{1, 0, 0}, "KILLING YOU!!!"}, self.x, self.y + self.timer * 3, self.timer / 10)
+		love.graphics.print({{1, 0, 0}, "KILLING YOU!!!"}, self.x, self.y + self.timer * 3, self.timer / (10/2))
 	end
 return self end

@@ -7,7 +7,7 @@ return function(text, x, y, width, from, to) local self = {}
 	self.to = to
 	local maxtimer = 75
 	self.timer = maxtimer
-	self.yv = -20
+	self.yv = -20*2
 	self.texty = 10
 	local dmgfont = FONT "fnt_damage"
 	if type(text) == "number" then
@@ -22,10 +22,10 @@ return function(text, x, y, width, from, to) local self = {}
 		self.text = love.graphics.newText(dmgfont, text)
 	end
     function self:update()
-		self.timer = self.timer - 1
-		self.yv = self.yv + 1
-		if self.yv < 20 then
-			self.texty = self.texty - self.yv / 10
+		self.timer = self.timer - 2
+		self.yv = self.yv + 2
+		if self.yv < 40 then
+			self.texty = self.texty - self.yv / 20
 		end
 		return self.timer > 0
     end
