@@ -92,6 +92,11 @@ return function(name, x, y, img, hp, options) local self = {}
 	end
 	function self:miss()
 		self.hpbar = Hpbar("MISS", self.x, self.y - self.image:getHeight() * 2 - 20, 0, 0, 0)
+        if attacked == nil then
+			self.attacked = true
+		else
+			self.attacked = attacked
+		end
 	end
     if options.update then self.update = options.update end
     if options.draw then self.draw = options.draw end
