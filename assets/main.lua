@@ -50,7 +50,11 @@ SETSCENE({
         end
         if ISPRESSED "MENU" and not love.keyboard.isDown("lctrl") then
             PLAYSOUND "snd_select.wav"
-            os.execute('start "" "'..love.filesystem.getSaveDirectory().."/mods"..'"')
+            if love.system.getOS() == "Windows" then
+                os.execute('start "" "'..love.filesystem.getSaveDirectory().."/mods"..'"')
+            else
+                os.execute('xdg-open "'..love.filesystem.getSaveDirectory().."/mods"..'"')
+            end
         end
         if #scripts - minopiton + 1 == 0 then
             return
